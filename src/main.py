@@ -100,7 +100,7 @@ def process_feeds(feed_url,num_links_to_display):
         print(f"Link: {entry.link}")
         print()
 
-def process_multiple_url_feeds():
+def multiple_url_feeds():
     """
     function uses feedparser to display feeds from multiple rss url
     """
@@ -136,4 +136,4 @@ def process_multiple_url_feeds():
 
 if __name__ == "__main__":
     # rss_feed()
-    process_multiple_url_feeds()
+    multiple_url_feeds()
