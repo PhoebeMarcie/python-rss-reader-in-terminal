@@ -16,8 +16,8 @@ Instructions for other developers on how to install and run your code on their l
 1.  **Clone the repository (if you haven't already):**
 
     ```bash
-    git clone 
-    cd rss_reader_project
+    git clone https://github.com/PhoebeMarcie/python-rss-reader-in-terminal
+    cd python-rss-reader-in-terminal
     ```
 
    
@@ -40,7 +40,7 @@ Instructions for other developers on how to install and run your code on their l
     pip install -r requirements.txt
     ```
 
-    This command will install `feedparser` and `requests`.
+  
 
 ## Running the Applications
 

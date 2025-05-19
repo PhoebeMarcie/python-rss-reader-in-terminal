@@ -1,5 +1,3 @@
-import os;
-import time;
 import feedparser;
 
 # 	http://feeds.bbci.co.uk/news/business/rss.xml
