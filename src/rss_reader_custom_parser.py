@@ -1,10 +1,9 @@
-import feedparser;
+import requests
+import xml.etree.ElementTree as ET
 
 # 	http://feeds.bbci.co.uk/news/business/rss.xml
 # 	http://feeds.bbci.co.uk/news/technology/rss.xml
 # https://feeds.bbci.co.uk/news/rss.xml
-
-
 
 def get_multiple_rss_urls():
     """
@@ -28,27 +27,43 @@ def get_multiple_rss_urls():
 
     return feed_urls
 
-def process_feeds(feed_url,num_links_to_display):
-    """this function takes a feeder url and number of links to be generated from the url """
 
-    feed = feedparser.parse(feed_url)
-    print('\n---- Feed Entries from: ',feed_url,'------')
-
-    if not feed.entries:
-        print("No Entries found in provided feed")
+def fetch_content(feed_url):
+    """this function fetches content from the feed urls"""
+    print('this is url: ', feed_url)
+    try:
+        response = requests.get(feed_url,timeout=10)
+        response.raise_for_status()
+        print("response content",response.content)
+        return response.content
     
-    for entry in feed.entries[:num_links_to_display]:
-        print('\n--- Entry ----')
-        print(f"Title: {entry.title}")
-        print(f"Description: {entry.description}")
-        print(f"Link: {entry.link}")
-        print()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching feed from {feed_url}:{e}")
+        return None
+
+def parse_feed(xml_content):
+    """
+    Parses the RSS feed XML content using ElementTree.
+    Extracts title, description, and link from each item.
+    """
+    if not xml_content:
+        return []
+    items_data = []
+    try:
+        root = ET.fromstring(xml_content)
+        channel = root.find('channel')
+        if channel is not None:
+            print(f"channel found as: {channel}")
+    except ET.ParseError as e:
+        print(f"Error parsing XML : {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred during parsing: {e}")
+    return items_data
+
 
 def multiple_url_feeds():
-    """
-    function uses feedparser to display feeds from multiple rss url
-    """
-    # 1.prompt user to enter URLs and end loop by typing the word 'end'
+    """function uses custom parser to read from multiple rss urls"""
+     # 1.prompt user to enter URLs and end loop by typing the word 'end'
     feed_urls = get_multiple_rss_urls()
     print(f"entered urls: {feed_urls}")
     if not feed_urls:
@@ -72,12 +87,15 @@ def multiple_url_feeds():
         except ValueError:
             print("Invalid input. Please enter a whole number")
 
-    # 3. loop through getting x number of links from the provided URLs
+     # 3. loop through getting x number of links from the provided URLs
     for url in feed_urls:
-        process_feeds(url,num_links)
+        xml_content = fetch_content(url)
+        if xml_content:
+            items = parse_feed(xml_content)
 
 
 
 if __name__ == "__main__":
-    # rss_feed()
     multiple_url_feeds()
+
+
