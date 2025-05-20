@@ -57,6 +57,15 @@ To run each application, navigate to the project directory in your terminal and 
 ```bash
 python rss_reader_basic.py
 
-<!-- ## License
-[MIT](https://choosealicense.com/licenses/mit/)
-Most open source projects use the MIT license. Feel free to choose whichever license you prefer. -->
+**Running the Basic Multiple RSS Feed Reader:**
+
+```bash
+python rss_reader_multiple.py
+
+**Running the Custom Parser RSS Feed Reader:**
+
+```bash
+python rss_reader_custom_parser.py
+
+
+
